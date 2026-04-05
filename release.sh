@@ -46,7 +46,13 @@ fi
 
 echo "==> Verifying code signature"
 codesign --verify --deep --strict "$SAVER"
-codesign -dv "$SAVER" 2>&1 | grep "Developer ID"
+AUTHORITY=$(codesign -dv --verbose=4 "$SAVER" 2>&1 | grep "^Authority=Developer ID Application")
+if [ -z "$AUTHORITY" ]; then
+  echo "Error: not signed with Developer ID Application"
+  codesign -dv --verbose=4 "$SAVER" 2>&1 | grep "^Authority"
+  exit 1
+fi
+echo "Signed: $AUTHORITY"
 
 echo "==> Zipping for notarization submission"
 ditto -c -k --keepParent "$SAVER" "$NOTARIZE_ZIP"
