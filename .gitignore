@@ -1,5 +1,6 @@
 # Xcode
 .DS_Store
+build/
 */build/*
 *.pbxuser
 !default.pbxuser
@@ -24,3 +25,4 @@ xcuserdata/*
 *.xcuserstate
 project.xcworkspace/
 xcuserdata/
+.superpowers/
